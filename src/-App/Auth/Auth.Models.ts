@@ -1,5 +1,7 @@
 export namespace AuthModels {
-  export class AuthorizationCodeFlowReqModel {
-    Code!: string;
-  }
+	export class AuthorizationCodeFlowReqModel {
+		Code!: string;
+		ApiId!: string;
+		ApiSecret!: string;
+	}
 }

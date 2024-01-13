@@ -1,3 +1,3 @@
 export interface AuthProvider {
-  authenticate(code: string): Promise<string>;
+	authenticate(code: string): Promise<string>;
 }

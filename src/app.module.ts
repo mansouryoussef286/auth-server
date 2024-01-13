@@ -4,8 +4,8 @@ import { ConfigurationModule } from './Config/Configuration.module';
 import { AuthModule } from './-App/Auth/Auth.Module';
 
 @Module({
-  imports: [ConfigurationModule, AuthModule],
-  controllers: [AppController],
-  providers: [],
+	imports: [ConfigurationModule, AuthModule],
+	controllers: [AppController],
+	providers: []
 })
 export class AppModule {}
