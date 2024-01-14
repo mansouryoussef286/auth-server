@@ -1,4 +1,6 @@
-.env 
+#Configuration
+.env
+Typeorm-generator.txt
 
 # compiled output
 /dist
