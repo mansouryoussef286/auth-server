@@ -8,10 +8,12 @@ export enum AuthProviderEnum {
 
 @Injectable()
 export class AuthProviderFactory {
+	constructor(private Auth0Provider: Auth0Provider) {}
+
 	getAuthProvider(provider: string): AuthProvider {
 		switch (provider) {
 			case AuthProviderEnum.Auth0:
-				return new Auth0Provider();
+				return this.Auth0Provider;
 			default:
 				throw new Error(`Unsupported provider: ${provider}`);
 		}

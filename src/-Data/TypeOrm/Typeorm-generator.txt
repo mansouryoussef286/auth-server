@@ -1,0 +1,1 @@
+npx typeorm-model-generator -h 127.0.0.1 -u root -x root -d Auth-Server -e mysql --cf pascal --ce pascal --cp pascal --noConfig true --relationIds true -o ./src/-Data/Entities
