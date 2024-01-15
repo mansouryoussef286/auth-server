@@ -20,5 +20,15 @@ export default registerAs('Config', () => ({
 		Auth0: {
 			TenantDomain: process.env.PROVIDER_Auth0_TENANT_DOMAIN
 		}
+	},
+	Auth: {
+		EncryptionKey: process.env.AUTH_ENCRYPTION_KEY,
+		Jwt: {
+			Key: process.env.AUTH_JWT_KEY,
+			Lifespan: process.env.AUTH_ACCESS_TOKEN_LIFESPAN,
+			Issuer: process.env.AUTH_JWT_ISSUER,
+			Audience: process.env.AUTH_JWT_AUDIENCE,
+			RefreshTokenSpan: process.env.AUTH_REFRESH_TOKEN_LIFESPAN
+		}
 	}
 }));

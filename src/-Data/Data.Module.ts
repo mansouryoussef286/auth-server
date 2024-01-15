@@ -20,6 +20,6 @@ const Entities = [Users, Clients];
 			useClass: ClientRepository
 		}
 	],
-	exports: [TypeOrmModule.forFeature(Entities)] //to use entities outside of the module
+	exports: [TypeOrmModule.forFeature(Entities), IClientRepository] //to use entities outside of the module
 })
 export class DataModule {}

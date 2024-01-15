@@ -3,7 +3,9 @@ import { Client } from '@App/-Domain/Entities/Client.Model';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Clients } from '../Entities/Clients';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ClientRepository implements IClientRepository {
 	constructor(@InjectRepository(Clients) private Clients: Repository<Clients>) {}
 

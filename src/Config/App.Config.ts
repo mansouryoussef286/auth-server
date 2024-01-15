@@ -23,6 +23,16 @@ export interface Config {
 			TenantDomain: string;
 		};
 	};
+	Auth: {
+		EncryptionKey: string;
+		Jwt: {
+			Key: string;
+			Lifespan: string;
+			RefreshTokenSpan: string;
+			Issuer: string;
+			Audience: string;
+		};
+	};
 }
 
 @Injectable()
