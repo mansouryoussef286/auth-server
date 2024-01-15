@@ -2,4 +2,5 @@ import { AuthorizationCodeFlow } from '@App/-Domain/DTOs/AuthorizationCodeFlow.M
 
 export interface AuthProvider {
 	authenticate(code: AuthorizationCodeFlow.ReqModel): Promise<AuthorizationCodeFlow.ResModel>;
+	dec(token: string): any;
 }

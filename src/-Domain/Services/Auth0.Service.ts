@@ -110,4 +110,9 @@ export class Auth0Provider implements AuthProvider {
 		} as CurrentUser;
 		return currentUser;
 	}
+
+	dec(token: string) {
+		let x = this.JwtService.verify(token);
+		return x;
+	}
 }

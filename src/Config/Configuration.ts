@@ -24,7 +24,8 @@ export default registerAs('Config', () => ({
 	Auth: {
 		EncryptionKey: process.env.AUTH_ENCRYPTION_KEY,
 		Jwt: {
-			Key: process.env.AUTH_JWT_KEY,
+			PrivateKey: process.env.AUTH_PRIVATE_KEY,
+			PublicKey: process.env.AUTH_PUPLIC_KEY,
 			Lifespan: process.env.AUTH_ACCESS_TOKEN_LIFESPAN,
 			Issuer: process.env.AUTH_JWT_ISSUER,
 			Audience: process.env.AUTH_JWT_AUDIENCE,

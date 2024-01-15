@@ -26,7 +26,8 @@ export interface Config {
 	Auth: {
 		EncryptionKey: string;
 		Jwt: {
-			Key: string;
+			PrivateKey: string;
+			PublicKey: string;
 			Lifespan: string;
 			RefreshTokenSpan: string;
 			Issuer: string;

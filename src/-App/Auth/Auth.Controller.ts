@@ -15,4 +15,9 @@ export class AuthController {
 	Login(@Body() AuthReqModel: AuthorizationCodeFlow.ReqModel): Promise<any> {
 		return this._AuthProvider.authenticate(AuthReqModel);
 	}
+
+	@Post('dec')
+	decrypt(@Body() AuthReqModel: any): Promise<any> {
+		return this._AuthProvider.dec(AuthReqModel.token);
+	}
 }
