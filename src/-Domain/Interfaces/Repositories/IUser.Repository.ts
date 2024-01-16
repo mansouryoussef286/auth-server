@@ -1,0 +1,8 @@
+import { User } from '@App/-Domain/Entities/User.Model';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export abstract class IUserRepository {
+	abstract FindByEmail(email: string): Promise<User>;
+	abstract Add(user: User): Promise<User>;
+}

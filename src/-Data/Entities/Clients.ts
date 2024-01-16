@@ -17,6 +17,9 @@ export class Clients {
   @Column("varchar", { name: "ProviderClientSecret", length: 100 })
   ProviderClientSecret: string;
 
-  @Column("varchar", { name: "IsActive", length: 100 })
-  IsActive: string;
+  @Column("varchar", { name: "RedirectUrl", nullable: true, length: 100 })
+  RedirectUrl: string | null;
+
+  @Column("bit", { name: "IsActive" })
+  IsActive: boolean;
 }

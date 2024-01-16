@@ -3,5 +3,5 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export abstract class IClientRepository {
-	abstract findByApiId(apiId: string): Promise<Client>;
+	abstract FindByApiId(apiId: string): Promise<Client>;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthProvider } from '../Interfaces/auth-provider.interface';
+import { AuthProvider } from '../../Interfaces/auth-provider.interface';
 import { Auth0Provider } from './Auth0.Service';
 
 export enum AuthProviderEnum {

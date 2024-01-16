@@ -8,6 +8,7 @@ export namespace AuthorizationCodeFlow {
 	}
 
 	export class ResModel {
+		Success: boolean;
 		AccessToken: string;
 		RefreshToken: string;
 		CurrentUser: CurrentUser;

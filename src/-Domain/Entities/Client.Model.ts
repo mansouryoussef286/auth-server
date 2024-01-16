@@ -4,5 +4,6 @@ export class Client {
 	ApiSecret: string | null;
 	ProviderClientId: string;
 	ProviderClientSecret: string;
-	IsActive: string;
+	RedirectUrl: string | null;
+	IsActive: boolean;
 }
