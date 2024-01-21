@@ -2,6 +2,8 @@
 .env
 Typeorm-generator.txt
 
+#keys 
+Keys/*
 # compiled output
 /dist
 /node_modules

@@ -39,7 +39,7 @@ export class Auth0Provider implements AuthProvider {
 			resModel.CurrentUser = this.GenerateCurrentUser(providerUser);
 		} catch (error) {
 			resModel.Success = false;
-			console.log(error);
+			// console.log(error);
 		}
 		return resModel;
 	}
