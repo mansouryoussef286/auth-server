@@ -19,7 +19,7 @@ export class UsersService {
 		return this.UserRepository.Add(user);
 	}
 
-	async CheckUserInDB(user: Auth0Models.ProviderUser) {
+	async CheckUserInDBByEmail(user: Auth0Models.ProviderUser) : Promise<User>{
 		let dbUser = await this.FindByEmail(user.email);
 		if (!dbUser) {
 			let newUser: User = {
@@ -30,6 +30,8 @@ export class UsersService {
 				ProfilePicPath: user.picture
 			};
 			let createdUser = await this.Add(newUser);
+			return createdUser;
 		}
+		return dbUser;
 	}
 }

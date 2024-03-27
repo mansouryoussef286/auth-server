@@ -7,6 +7,7 @@ export namespace Auth0Models {
 		token_type: string;
 	}
 	export class ProviderUser {
+		Id: number;
 		email: string;
 		email_verified: boolean;
 		family_name: string;

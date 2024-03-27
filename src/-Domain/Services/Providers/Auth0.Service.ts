@@ -32,7 +32,8 @@ export class Auth0Provider implements AuthProvider {
 			// console.log(providerUser);
 
 			// check with users db table to add him if new
-			this.UsersService.CheckUserInDB(providerUser);
+			const user = await this.UsersService.CheckUserInDBByEmail(providerUser);
+			providerUser.Id = user.Id;
 
 			resModel.AccessToken = this.GenerateAccessToken(providerUser);
 			resModel.RefreshToken = this.GenerateRefreshToken(providerUser);
@@ -76,7 +77,8 @@ export class Auth0Provider implements AuthProvider {
 		const accessToken =
 			'Bearer ' +
 			this.JwtService.sign({
-				Email: user.email
+				Email: user.email,
+				Id: user.Id
 			} as any);
 		return accessToken;
 	}
@@ -84,7 +86,8 @@ export class Auth0Provider implements AuthProvider {
 	GenerateRefreshToken(user: Auth0Models.ProviderUser): string {
 		const refreshToken = this.JwtService.sign(
 			{
-				Email: user.email
+				Email: user.email,
+				Id: user.Id
 			} as any,
 			{
 				expiresIn: this.AppConfig.Config.Auth.Jwt.RefreshTokenSpan
@@ -97,6 +100,7 @@ export class Auth0Provider implements AuthProvider {
 
 	GenerateCurrentUser(user: Auth0Models.ProviderUser): CurrentUser {
 		const currentUser = {
+			Id: user.Id,
 			FirstName: user.given_name,
 			LastName: user.family_name,
 			Email: user.email,

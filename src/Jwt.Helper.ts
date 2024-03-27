@@ -8,7 +8,7 @@ export const JwtOptions: JwtModuleAsyncOptions = {
 	useFactory: async (configService: ConfigService) => {
 		const Config = configService.get<Config>('Config');
 		const privateKey = fs.readFileSync('Keys/decrypted-private-key.pem', 'utf8');
-		const publicKey = fs.readFileSync('Keys/public-cert.pem', 'utf8');
+		const publicKey = fs.readFileSync('Keys/certificate.pem', 'utf8');
 
 		return {
 			privateKey: privateKey,
