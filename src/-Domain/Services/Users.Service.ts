@@ -42,6 +42,9 @@ export class UsersService {
 			return createdUser;
 		} else {
 			dbUser.Auth0RefreshToken = user.refresh_token;
+			dbUser.FirstName = user.given_name;
+			dbUser.LastName = user.family_name;
+			dbUser.ProfilePicPath = user.picture;
 			await this.Update(dbUser);
 		}
 		return dbUser;
