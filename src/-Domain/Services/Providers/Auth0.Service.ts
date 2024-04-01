@@ -5,12 +5,15 @@ import { JwtService } from '@nestjs/jwt';
 import { AppConfig } from '@App/Config/App.Config';
 
 import { AuthProvider } from '@App/-Domain/Interfaces/auth-provider.interface';
-import { AuthorizationCodeFlow } from '@App/-Domain/DTOs/AuthorizationCodeFlow.Models';
+import { AuthorizationCodeFlowDTO } from '@App/-Domain/DTOs/AuthorizationCodeFlow.Models';
 import { CurrentUser } from '@App/-Domain/DTOs/CurrentUser.Model';
 import { Client } from '@App/-Domain/Entities/Client.Model';
 import { ClientsService } from '@App/-Domain/Services/Clients.Service';
 import { UsersService } from '@App/-Domain/Services/Users.Service';
 import { Auth0Models } from '@App/-Domain/Models/Auth0.Models';
+import { AuthenticationModels } from '@App/-Domain/Models/Authentication.Models';
+import { RefreshTokenDTO } from '@App/-Domain/DTOs/RefreshToken.Models';
+import { User } from '@App/-Domain/Entities/User.Model';
 
 @Injectable()
 export class Auth0Provider implements AuthProvider {
@@ -21,8 +24,8 @@ export class Auth0Provider implements AuthProvider {
 		private UsersService: UsersService
 	) {}
 
-	async authenticate(reqModel: AuthorizationCodeFlow.ReqModel): Promise<AuthorizationCodeFlow.ResModel> {
-		let resModel: AuthorizationCodeFlow.ResModel = new AuthorizationCodeFlow.ResModel();
+	async authenticate(reqModel: AuthorizationCodeFlowDTO.ReqModel): Promise<AuthorizationCodeFlowDTO.ResModel> {
+		let resModel: AuthorizationCodeFlowDTO.ResModel = new AuthorizationCodeFlowDTO.ResModel();
 		resModel.Success = true;
 
 		// create a wrapper for axios
@@ -33,11 +36,10 @@ export class Auth0Provider implements AuthProvider {
 
 			// check with users db table to add him if new
 			const user = await this.UsersService.CheckUserInDBByEmail(providerUser);
-			providerUser.Id = user.Id;
 
-			resModel.AccessToken = this.GenerateAccessToken(providerUser);
-			resModel.RefreshToken = this.GenerateRefreshToken(providerUser);
-			resModel.CurrentUser = this.GenerateCurrentUser(providerUser);
+			resModel.AccessToken = this.GenerateAccessToken(user);
+			resModel.RefreshToken = this.GenerateRefreshToken(user);
+			resModel.CurrentUser = this.GenerateCurrentUser(user);
 		} catch (error) {
 			resModel.Success = false;
 			// console.log(error);
@@ -45,7 +47,9 @@ export class Auth0Provider implements AuthProvider {
 		return resModel;
 	}
 
-	async ValidateCodeAndGetToken(reqModel: AuthorizationCodeFlow.ReqModel): Promise<Auth0Models.TokenResponse> {
+	private async ValidateCodeAndGetToken(
+		reqModel: AuthorizationCodeFlowDTO.ReqModel
+	): Promise<Auth0Models.TokenResponse> {
 		const tokenApiUrl = `${this.AppConfig.Config.Provider.Auth0.TenantDomain}/oauth/token`;
 
 		let client: Client = await this.ClientsService.FindByApiId(reqModel.ApiId);
@@ -56,13 +60,14 @@ export class Auth0Provider implements AuthProvider {
 			client_id: client.ProviderClientId,
 			client_secret: client.ProviderClientSecret,
 			code: reqModel.Code,
-			redirect_uri: client.RedirectUrl
+			redirect_uri: client.RedirectUrl,
 		});
 		let tokenResponse: Auth0Models.TokenResponse = getTokenResponse.data;
+		
 		return tokenResponse;
 	}
 
-	async GetProviderUserInfo(tokenResponse: Auth0Models.TokenResponse): Promise<Auth0Models.ProviderUser> {
+	private async GetProviderUserInfo(tokenResponse: Auth0Models.TokenResponse): Promise<Auth0Models.ProviderUser> {
 		const userApiUrl = `${this.AppConfig.Config.Provider.Auth0.TenantDomain}/userinfo`;
 		let userInfoResponse: any = await axios.get(userApiUrl, {
 			headers: {
@@ -73,22 +78,22 @@ export class Auth0Provider implements AuthProvider {
 		return user;
 	}
 
-	GenerateAccessToken(user: Auth0Models.ProviderUser): string {
+	private GenerateAccessToken(user: User): string {
 		const accessToken =
 			'Bearer ' +
 			this.JwtService.sign({
-				Email: user.email,
-				Id: user.Id
-			} as any);
+				Id: user.Id,
+				Email: user.Email
+			} as AuthenticationModels.JwtAccessToken);
 		return accessToken;
 	}
 
-	GenerateRefreshToken(user: Auth0Models.ProviderUser): string {
+	private GenerateRefreshToken(user: User): string {
 		const refreshToken = this.JwtService.sign(
 			{
-				Email: user.email,
+				Email: user.Email,
 				Id: user.Id
-			} as any,
+			} as AuthenticationModels.JwtRefreshToken,
 			{
 				expiresIn: this.AppConfig.Config.Auth.Jwt.RefreshTokenSpan
 			}
@@ -98,14 +103,28 @@ export class Auth0Provider implements AuthProvider {
 		return refreshToken;
 	}
 
-	GenerateCurrentUser(user: Auth0Models.ProviderUser): CurrentUser {
+	private GenerateCurrentUser(user: User): CurrentUser {
 		const currentUser = {
 			Id: user.Id,
-			FirstName: user.given_name,
-			LastName: user.family_name,
-			Email: user.email,
-			ProfilePicturePath: user.picture
+			FirstName: user.FirstName,
+			LastName: user.LastName,
+			Email: user.Email,
+			ProfilePicturePath: user.ProfilePicPath
 		} as CurrentUser;
 		return currentUser;
+	}
+
+	async RefreshAccessToken(reqModel: RefreshTokenDTO.ReqModel): Promise<RefreshTokenDTO.ResModel> {
+		let resModel: RefreshTokenDTO.ResModel = new RefreshTokenDTO.ResModel();
+		resModel.Success = true;
+		// i need to check this userid with id in refresh token after validating and injecting it to the request
+		const user = await this.UsersService.FindById(reqModel.UserId);
+		if (!user) {
+			resModel.Success = false;
+		}
+
+		resModel.AccessToken = this.GenerateAccessToken(user);
+		resModel.RefreshToken = this.GenerateRefreshToken(user);
+		return resModel;
 	}
 }

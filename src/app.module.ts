@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmOptions } from '@App/-Data/TypeOrm/TypeOrmOptions';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtOptions } from './Jwt.Helper';
+import { RefreshJwtStrategy } from './Common/Auth/RefreshToken-Strategy';
 
 @Module({
 	imports: [
@@ -18,6 +19,8 @@ import { JwtOptions } from './Jwt.Helper';
 		AuthModule
 	],
 	controllers: [AppController],
-	providers: []
+	providers: [
+		RefreshJwtStrategy
+	]
 })
 export class AppModule {}

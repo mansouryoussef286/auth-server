@@ -4,5 +4,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export abstract class IUserRepository {
 	abstract FindByEmail(email: string): Promise<User>;
+	abstract FindById(id: number): Promise<User>;
 	abstract Add(user: User): Promise<User>;
 }

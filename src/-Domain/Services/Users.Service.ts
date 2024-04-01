@@ -11,11 +11,15 @@ export class UsersService {
 		private UserRepository: IUserRepository
 	) {}
 
-	FindByEmail(email: string): Promise<User> {
+	private FindByEmail(email: string): Promise<User> {
 		return this.UserRepository.FindByEmail(email);
 	}
+	
+	FindById(id: number): Promise<User> {
+		return this.UserRepository.FindById(id);
+	}
 
-	Add(user: User): Promise<User> {
+	private Add(user: User): Promise<User> {
 		return this.UserRepository.Add(user);
 	}
 

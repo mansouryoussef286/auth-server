@@ -1,8 +1,10 @@
 import { CurrentUser } from '@App/-Domain/DTOs/CurrentUser.Model';
 
-export namespace AuthorizationCodeFlowDTO {
+export namespace RefreshTokenDTO {
 	export class ReqModel {
-		Code!: string;
+		UserId!: number;
+		AccessToken!: string;
+		RefreshToken!: string;
 		ApiId!: string;
 		ApiSecret!: string;
 	}
@@ -11,6 +13,5 @@ export namespace AuthorizationCodeFlowDTO {
 		Success: boolean;
 		AccessToken: string;
 		RefreshToken: string;
-		CurrentUser: CurrentUser;
 	}
 }

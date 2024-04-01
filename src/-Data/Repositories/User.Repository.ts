@@ -10,6 +10,7 @@ import { IUserRepository } from '@App/-Domain/Interfaces/Repositories/IUser.Repo
 @Injectable()
 export class UserRepository implements IUserRepository {
 	constructor(@InjectRepository(Users) private Users: Repository<Users>) {}
+	
 	FindByEmail(email: string): Promise<User> {
 		return this.Users.findOne({
 			where: {
@@ -17,6 +18,15 @@ export class UserRepository implements IUserRepository {
 			}
 		});
 	}
+	
+	FindById(id: number): Promise<User> {
+		return this.Users.findOne({
+			where: {
+				Id: id
+			}
+		});
+	}
+	
 	async Add(user: User): Promise<User> {
 		const newUser = this.Users.create({
 			Email: user.Email,
