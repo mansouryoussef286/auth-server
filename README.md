@@ -79,3 +79,4 @@ Integration with social login options.
 Implement user roles and permissions.
 Implement token-based authentication and refresh tokens.
 This Centralized Authentication API provides a robust foundation for managing user authentication across your applications, promoting code reusability and streamlining your backend development.
+...
