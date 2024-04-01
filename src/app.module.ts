@@ -7,6 +7,10 @@ import { TypeOrmOptions } from '@App/-Data/TypeOrm/TypeOrmOptions';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtOptions } from './Jwt.Helper';
 import { RefreshJwtStrategy } from './Common/Auth/RefreshToken-Strategy';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CurrentUserInterceptor } from './Common/Interceptors/CurrentUser.Interceptor';
+import { LoggingInterceptor } from './Common/Interceptors/Logging.Interceptor';
+import { CommonModule } from './Common/Common.Module';
 
 @Module({
 	imports: [
@@ -16,11 +20,14 @@ import { RefreshJwtStrategy } from './Common/Auth/RefreshToken-Strategy';
 			...JwtModule.registerAsync(JwtOptions),
 			global: true // to register only once and be accessed across the whole app
 		},
+		CommonModule,
 		AuthModule
 	],
 	controllers: [AppController],
 	providers: [
-		RefreshJwtStrategy
+		RefreshJwtStrategy,
+		{ provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+		{ provide: APP_INTERCEPTOR, useClass: CurrentUserInterceptor }
 	]
 })
 export class AppModule {}

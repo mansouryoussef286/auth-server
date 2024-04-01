@@ -6,9 +6,10 @@ import { AuthProviderFactory } from '@App/-Domain/Services/Providers/auth-provid
 import { DataModule } from '@App/-Data/Data.Module';
 import { ClientsService } from '@App/-Domain/Services/Clients.Service';
 import { UsersService } from '@App/-Domain/Services/Users.Service';
+import { CommonModule } from '@App/Common/Common.Module';
 
 @Module({
-	imports: [ConfigurationModule, DataModule],
+	imports: [ConfigurationModule, DataModule,CommonModule],
 	controllers: [AuthController],
 	providers: [AuthProviderFactory, Auth0Provider, ClientsService, UsersService]
 })

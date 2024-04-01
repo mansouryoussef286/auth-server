@@ -4,4 +4,5 @@ export class User {
 	FirstName: string;
 	LastName: string;
 	ProfilePicPath: string | null;
+	Auth0RefreshToken: string | null;
 }

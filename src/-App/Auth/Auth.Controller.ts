@@ -3,7 +3,6 @@ import { AuthProviderEnum, AuthProviderFactory } from '@App/-Domain/Services/Pro
 import { AuthorizationCodeFlowDTO } from '@App/-Domain/DTOs/AuthorizationCodeFlow.Models';
 import { AuthProvider } from '@App/-Domain/Interfaces/auth-provider.interface';
 import { RefreshTokenGuard } from '@App/Common/Auth/RefreshToken.Guard';
-import { AuthenticationModels } from '@App/-Domain/Models/Authentication.Models';
 import { RefreshTokenDTO } from '@App/-Domain/DTOs/RefreshToken.Models';
 
 @Controller('authenticate')

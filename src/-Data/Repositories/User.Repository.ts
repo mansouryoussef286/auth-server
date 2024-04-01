@@ -36,4 +36,9 @@ export class UserRepository implements IUserRepository {
 		});
 		return await this.Users.save(newUser);
 	}
+	
+	async Update(user: User): Promise<User> {
+		const updated = await this.Users.update(user.Id, user);
+		return user;
+	}
 }

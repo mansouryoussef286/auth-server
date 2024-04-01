@@ -1,13 +1,14 @@
 export namespace Auth0Models {
 	export class TokenResponse {
 		access_token: string;
+		refresh_token: string;
 		id_token: string;
 		scope: string;
 		expires_in: number;
 		token_type: string;
 	}
+	
 	export class ProviderUser {
-		Id: number;
 		email: string;
 		email_verified: boolean;
 		family_name: string;
@@ -18,5 +19,8 @@ export namespace Auth0Models {
 		picture: string;
 		sub: string;
 		updated_at: Date;
+		
+		Id: number;
+		refresh_token: string;
 	}
 }

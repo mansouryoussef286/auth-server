@@ -16,4 +16,7 @@ export class Users {
 
   @Column("varchar", { name: "ProfilePicPath", nullable: true, length: 100 })
   ProfilePicPath: string | null;
+
+  @Column("varchar", { name: "Auth0RefreshToken", nullable: true, length: 256 })
+  Auth0RefreshToken: string | null;
 }

@@ -1,7 +1,8 @@
 import { CurrentUser } from '@App/-Domain/DTOs/CurrentUser.Model';
+import { ApiKeys } from './ApiKeys.interface';
 
 export namespace RefreshTokenDTO {
-	export class ReqModel {
+	export class ReqModel implements ApiKeys {
 		UserId!: number;
 		AccessToken!: string;
 		RefreshToken!: string;
