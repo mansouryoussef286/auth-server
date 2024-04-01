@@ -25,33 +25,32 @@ Install Dependencies:
 cd auth-server
 npm install  # or yarn install
 ```
-![Alt text for the image](/ReadmeAssets/codeflow.png)
 
 
 
-
+## Database
 <details>
-  <summary>Database Configuration:</summary>
-<!--   <p>
-  </p> -->
-    ```sql
-
-    ```  
+  <!-- Dropdown Title -->
+  <summary>
+    <h2>Database Configuration:</h2>
+  </summary>
+  <!-- Dropdown Part -->
+  <h3>descriptionnnnnnnnnn</h3>
 </details>
 
-**Create a database for the API.**
 
 > This is the content for the first section.
 
 Configuration:
   creating an Auth0 tenant and create an application for each SPA client
+
+
   
+## Usage:
 Start the Server:
 Bash
 npm start  # or yarn start
 Use code with caution.
-
-## Usage:
 
 Application Registration:
 Register your backend applications with this API to obtain API keys and secrets.
@@ -61,6 +60,16 @@ The API validates the request using the provided API key and secret.
 The API handles user authentication with Auth0 (or other providers).
 Upon successful authentication, the API returns a user object or a token to the application.
 
+
+## Code flow:
+<details open>
+  <!-- Dropdown Title -->
+  <summary>
+    <h3>bar chart</h3>
+  </summary>
+  <!-- Dropdown Part -->
+  <img style="width:500px;" src="/ReadmeAssets/codeflow.png">
+</details>
 
 
 ## License:
