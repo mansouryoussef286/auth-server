@@ -1,73 +1,81 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Centralized Authentication Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This API provides a central location for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user creation and management. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features:
 
-## Description
+* Delegated Authentication: Offloads authentication logic from individual applications.
+* Supports Auth0: Integrates with Auth0 for user authentication. (Note: This can be extended to support other providers in the future.)
+* User Management: Creates and stores user information in a centralized database.
+* API Authentication: Applications authenticate with the API using API keys and secrets.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Installation:
 
-## Installation
+Prerequisites:
+* Node.js and npm (or yarn) installed on your system.
+* A MySQL database server 
+* Clone the Repository:
 
-```bash
-$ npm install
+```Bash
+git clone https://github.com/mansouryoussef286/auth-server.git
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+Install Dependencies:
+```Bash
+cd auth-server
+npm install  # or yarn install
 ```
+![Alt text for the image](/ReadmeAssets/codeflow.png)
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
-```
+<details>
+  <summary>Database Configuration:</summary>
+<!--   <p>
+  </p> -->
+    ```sql
 
-## Support
+    ```  
+</details>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Create a database for the API.**
 
-## Stay in touch
+> This is the content for the first section.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Configuration:
+  creating an Auth0 tenant and create an application for each SPA client
+  
+Start the Server:
+Bash
+npm start  # or yarn start
+Use code with caution.
 
-## License
+## Usage:
 
-Nest is [MIT licensed](LICENSE).
+Application Registration:
+Register your backend applications with this API to obtain API keys and secrets.
+Authentication Flow:
+Applications send user authentication requests to the API.
+The API validates the request using the provided API key and secret.
+The API handles user authentication with Auth0 (or other providers).
+Upon successful authentication, the API returns a user object or a token to the application.
+
+
+
+## License:
+
+This project is licensed under the MIT License: https://opensource.org/licenses/MIT.
+
+## Additional Notes:
+
+This is a sample README file, and specific details may need to be adjusted based on your implementation.
+Security is paramount for authentication systems. Ensure proper security practices like secure password hashing and access control are implemented.
+Consider including API documentation tools like Swagger or OpenAPI to generate interactive API documentation.
+Further Development:
+
+Support for additional identity providers beyond Auth0.
+Integration with social login options.
+Implement user roles and permissions.
+Implement token-based authentication and refresh tokens.
+This Centralized Authentication API provides a robust foundation for managing user authentication across your applications, promoting code reusability and streamlining your backend development.
