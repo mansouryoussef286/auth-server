@@ -143,6 +143,8 @@ export class Auth0Provider implements AuthProvider {
 		let resModel: RefreshTokenDTO.ResModel = new RefreshTokenDTO.ResModel();
 		resModel.Success = true;
 		try {
+
+			// since no changes reflected on user info till further login so no need to refresh the tokens
 			const currentUser = this.UserHelper.GetCurrentUser();
 			const client = await this.CheckClient(reqModel);
 			const user = await this.UsersService.FindById(reqModel.UserId);
@@ -150,16 +152,16 @@ export class Auth0Provider implements AuthProvider {
 			if (!user) throw new NotFoundException();
 			if (user.Id != currentUser.Id) throw new UnauthorizedException();
 
-			const refreshToken = user.Auth0RefreshToken;
-			const tokenResponse: Auth0Models.TokenResponse = await this.ValidateIPRefreshTokenAndGetIPToken(
-				refreshToken,
-				client
-			);
+			// const refreshToken = user.Auth0RefreshToken;
+			// const tokenResponse: Auth0Models.TokenResponse = await this.ValidateIPRefreshTokenAndGetIPToken(
+			// 	refreshToken,
+			// 	client
+			// );
 
-			let providerUser: Auth0Models.ProviderUser = await this.GetProviderUserInfo(tokenResponse);
-			providerUser.Id = user.Id;
-			providerUser.refresh_token = tokenResponse.refresh_token;
-			await this.UsersService.UpdateUserFromIp(providerUser);
+			// let providerUser: Auth0Models.ProviderUser = await this.GetProviderUserInfo(tokenResponse);
+			// providerUser.Id = user.Id;
+			// providerUser.refresh_token = tokenResponse.refresh_token;
+			// await this.UsersService.UpdateUserFromIp(providerUser);
 
 			resModel.AccessToken = this.GenerateAccessToken(user);
 			resModel.RefreshToken = this.GenerateRefreshToken(user);
