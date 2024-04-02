@@ -1,26 +1,43 @@
 # Centralized Authentication Service
-
 This API provides a centralized service for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user authentication. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows.
 
-## Features:
+<br>
+<br>
 
+## Features:
 * Delegated Authentication: Offloads authentication logic from individual applications.
 * Supports Auth0: Integrates with Auth0 for user authentication. (Note: This can be extended to support other providers in the future.)
 * User Management: Creates and stores user information in a centralized database.
 * API Authentication: Applications authenticate with the API using API keys and secrets.
-* Client applications authenticate using this auth server that connects to Identity Provider using **Authorization code flow**.
-https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
+* Client applications authenticate using this auth server that connects to Identity Provider using. [**Authorization code flow**](#auth-code-flow)
+* offers refresh token and smaller spans access token for extra security. [**Refresh token flow**](#refresh-token-flow)
 
-### Authorization code flow
+<br>
+<br>
 
-  <img style="width:500px; display:block;" src="/ReadmeAssets/Auth server - Auth code flow.png" alt="auth access token flow">
-  
-### refresh token flow
+## Code Flow Sequence Diagrams
+<details open>
+  <!-- Dropdown Title -->
+  <summary>
+    <h2>Authorization code flow:</h2>
+  </summary>
+  <!-- Dropdown Part -->
+  <img style="max-height:500px;" src="/ReadmeAssets/Auth server - Auth code flow.png" alt="auth access token flow" id="auth-code-flow">
+</details>
 
-  <img style="width:500px;" src="/ReadmeAssets/refresh token flow 2.png" alt="auth refresh token flow">
+<details open style="margin: 0;">
+  <!-- Dropdown Title -->
+  <summary>
+    <h2>Refresh token flow:</h2>
+  </summary>
+  <!-- Dropdown Part -->
+  <img style="max-height:500px;" src="/ReadmeAssets/refresh token flow 2.png" alt="auth refresh token flow" id="refresh-token-flow">
+</details>
+
+<br>
+<br>
 
 ## Installation:
-
 Prerequisites:
 * Node.js and npm (or yarn) installed on your system.
 * A MySQL database server 
@@ -36,27 +53,29 @@ cd auth-server
 npm install  # or yarn install
 ```
 
-
+<br>
+<br>
 
 ## Database
 <details>
   <!-- Dropdown Title -->
   <summary>
-    <h2>Database Configuration:</h2>
+    <h2>title:</h2>
   </summary>
   <!-- Dropdown Part -->
-  <h3>descriptionnnnnnnnnn</h3>
+  <h3>description</h3>
 </details>
 
+<br>
+<br>
+
+## Usage:
 
 > This is the content for the first section.
 
 Configuration:
   creating an Auth0 tenant and create an application for each SPA client
 
-
-  
-## Usage:
 Start the Server:
 Bash
 npm start  # or yarn start
@@ -71,20 +90,10 @@ The API handles user authentication with Auth0 (or other providers).
 Upon successful authentication, the API returns a user object or a token to the application.
 
 
-## Code flow:
-<details open>
-  <!-- Dropdown Title -->
-  <summary>
-    <h3>bar chart</h3>
-  </summary>
-  <!-- Dropdown Part -->
-  <img style="width:500px;" src="/ReadmeAssets/codeflow.png">
-</details>
-
-
 ## License:
 
 This project is licensed under the MIT License: https://opensource.org/licenses/MIT.
+
 
 ## Additional Notes:
 
@@ -99,3 +108,7 @@ Implement user roles and permissions.
 Implement token-based authentication and refresh tokens.
 This Centralized Authentication API provides a robust foundation for managing user authentication across your applications, promoting code reusability and streamlining your backend development.
 ...
+
+
+## Api Refrences
+https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
