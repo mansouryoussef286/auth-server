@@ -1,6 +1,6 @@
 # Centralized Authentication Service
 
-This API provides a central location for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user creation and management. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows.
+This API provides a centralized service for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user authentication. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows.
 
 ## Features:
 
@@ -8,6 +8,16 @@ This API provides a central location for handling user authentication using **OA
 * Supports Auth0: Integrates with Auth0 for user authentication. (Note: This can be extended to support other providers in the future.)
 * User Management: Creates and stores user information in a centralized database.
 * API Authentication: Applications authenticate with the API using API keys and secrets.
+* Client applications authenticate using this auth server that connects to Identity Provider using **Authorization code flow**.
+https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
+
+### Authorization code flow
+
+  <img style="width:500px; display:block;" src="/ReadmeAssets/Auth server - Auth code flow.png" alt="auth access token flow">
+  
+### refresh token flow
+
+  <img style="width:500px;" src="/ReadmeAssets/refresh token flow 2.png" alt="auth refresh token flow">
 
 ## Installation:
 
