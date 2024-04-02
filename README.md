@@ -147,7 +147,47 @@ Add authentication code in the Clients' api and web application
 <br>
 <br>
 
+## Architecture:
 
+### Auth Server API Architecture with Hexagonal Architecture (NestJS)
+This document describes the architecture of your Auth Server API built using NestJS and the hexagonal architecture pattern. The hexagonal architecture helps to decouple the core domain logic from the infrastructure and application layers, promoting maintainability and testability.
+
+### Folder Structure:
+The project is organized into three main folders:
+
+* #### App:
+  This folder contains the application layer logic responsible for handling incoming requests, routing, and interacting with the domain layer.
+  * Controllers: NestJS controllers reside here, defining API endpoints and orchestrating domain layer interactions.
+  * Services: Application services can be defined here to encapsulate reusable business logic related to user authentication and management.
+
+* #### Data:
+  This folder contains code related to data access and persistence.
+  * Repositories: Implementations for domain-specific repositories reside here, responsible for CRUD operations on user data. They interact with the chosen persistence layer (e.g., database) without exposing implementation details to the domain layer.
+  * Adapters: If necessary, adapter classes can be defined here to bridge the gap between the domain models and the specific database technology (e.g., TypeORM, Mongoose).
+
+* #### Domain:
+  This folder houses the core domain logic of the application.
+  * Entities: Domain entities represent user data and encapsulate business rules related to user validation and state management.
+  * Ports: Interfaces defining the operations the domain layer expects from the external world (e.g., user repository, authentication service).
+
+### Dependency Flow:
+The dependency flow follows the hexagonal architecture principles:
+
+* App Layer: Depends on the Domain layer through its ports.
+* Domain Layer: Depends on its own ports (abstractions) and not on any specific implementation details of the data layer or external services.
+
+This approach ensures that the domain logic remains independent of specific technologies and frameworks, facilitating testing and future changes.
+
+### Benefits of Hexagonal Architecture:
+Decoupling: The domain layer is independent of the infrastructure and application layers.
+Testability: Domain logic can be easily tested in isolation without involving external dependencies.
+Maintainability: Changes can be made to one layer without impacting others.
+Flexibility: Different implementations can be plugged in for different infrastructure needs.
+By adopting this hexagonal architecture approach, you create a robust and maintainable foundation for your Auth Server API in NestJS.
+
+
+<br>
+<br>
 
 ## License:
 
