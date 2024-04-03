@@ -1,5 +1,6 @@
 # Centralized Authentication Service
-This API provides a centralized service for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user authentication. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows.
+This API provides a centralized service for handling user authentication using **OAuth2.0** for your backend applications. It abstracts the logic of connecting to identity providers (currently supporting Auth0) and handles user authentication. Applications can integrate with this API using API keys and secrets instead of implementing their own authentication flows. 
+Based on **Asymetric encryption** for extra security of the encryption keys.
 
 <br>
 <br>
@@ -9,7 +10,7 @@ This API provides a centralized service for handling user authentication using *
 * Supports Auth0: Integrates with Auth0 for user authentication. (Note: This can be extended to support other providers in the future.)
 * User Management: Creates and stores user information in a centralized database.
 * API Authentication: Applications authenticate with the API using API keys and secrets.
-* Client applications authenticate using this auth server that connects to Identity Provider using. [**Authorization code flow**](#auth-code-flow)
+* Client applications authenticate using this auth server that connects to Identity Provider using. [**Authorization code flow**](#auth-code-flow) [**refrence**](#code-flow-ref)
 * offers refresh token and smaller spans access token for extra security. [**Refresh token flow**](#refresh-token-flow)
 
 <br>
@@ -133,8 +134,72 @@ npm start  # or yarn start
 #### Client Setup:
 Add authentication code in the Clients' api and web application 
 * to allow the tenant to authenticate the user and return the authorization code
+  * There is a method mentioned in Auth0 quick start.  [**here**](#auth0-quick-start)
+  * But I preferred using the native way with no extra packages to download.  [**here**](#auth0-native-authorize)
+  * Example using Angular:
+    ```javascript
+    Authenticate() {
+  		let url = this.GetAuthenticationUrl();
+  		window.open(url, "_self");
+  	}
+  
+  	private GetAuthenticationUrl(): string {
+  		// Don't use values directly in your code 
+  		let response_type = 'code';
+  		let client_id = '7AtMgepqMwqvlgtKhV2vQy7YmWYCr3oI'; // IP client id
+  		let scope = 'openid profile email offline_access'; 
+  		let redirect_uri = 'http://localhost:4200/auth'; // Same as set in the IP tenant
+  		let state = 'STATE'; // To compare with returned state with code for extra security
+  
+  		this.State = state;
+  		return `${this.TenantBaseUrl}authorize?response_type=${response_type}&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}&state=${state}`;
+  	}
+    ```
 * then the web app send it to its api
-* then the api communicate with my auth server to handle the backend authentication 
+* then the api communicate with my auth server to handle the backend authentication
+* Example using .Net core api
+  ```csharp
+        public async Task<AuthServerAuthenticationResModel> Authenticate(string code)
+        {
+            // Replace the URL with the actual API endpoint
+            var apiUrl = (_configuration["Auth-Server:ApiUrl"] ?? "") + "authenticate";
+            var authServerApiId = _configuration["Auth-Server:ApiId"] ?? "";
+            var authServerApiSecret = _configuration["Auth-Server:ApiSecret"] ?? "";
+
+            var reqModel = new AuthServerAuthenticationReqModel()
+            {
+                Code = code,
+                ApiId = authServerApiId,
+                ApiSecret = authServerApiSecret
+            };
+
+
+            var jsonContent = JsonConvert.SerializeObject(reqModel);
+            var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(apiUrl, content);
+
+            response.EnsureSuccessStatusCode();
+
+            // Read and deserialize the response content
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var authenticationResModel = JsonConvert.DeserializeObject<AuthServerAuthenticationResModel>(responseContent);
+
+            if (authenticationResModel != null && authenticationResModel.Success == true)
+            {
+                await CheckUserInDbById(authenticationResModel.CurrentUser);
+                return authenticationResModel;
+
+            }
+            else
+            {
+                authenticationResModel = new AuthServerAuthenticationResModel();
+                authenticationResModel.Success = false;
+                return authenticationResModel;
+            }
+        }
+  ```
+  
 <br>
 
 #### Authentication Flow:
@@ -189,25 +254,50 @@ By adopting this hexagonal architecture approach, you create a robust and mainta
 <br>
 <br>
 
+## Additional Notes:
+
+This is a simple README file, and specific details may need to be adjusted based on your implementation.
+Security is paramount for authentication systems. Ensure proper security practices like secure password hashing and access control are implemented.
+Consider including API documentation tools like Swagger or OpenAPI to generate interactive API documentation.
+Feel free to 
+Further Development:
+* Support for additional identity providers beyond Auth0, like Keycloak (an open source option).
+* Implement user roles and permissions (currently it's kept for each individual api client).
+* Implement refresh tokens invalidations to old ones when a new one is issued.
+* Implement encryption keys rotation for added security.
+
+This Centralized Authentication API provides a robust foundation for managing user authentication across your applications, promoting code reusability and streamlining your backend development.
+
+<br>
+
+## Contributing
+
+We welcome contributions from everyone, regardless of skill level. Here are some ways you can contribute:
+
+- **Submit Bug Reports:** If you find any issues or unexpected behavior, please [open an issue](https://github.com/mansouryoussef286/auth-server/issues) on GitHub and provide as much detail as possible.
+  
+- **Request Features:** If you have ideas for new features or improvements, feel free to [submit a feature request](https://github.com/mansouryoussef286/auth-server/issues) or discuss them in the [discussions](https://github.com/mansouryoussef286/auth-server/discussions) section.
+
+- **Contribute Code:** If you want to contribute code, please follow these steps:
+  1. Fork the repository.
+  2. Create a new branch for your feature or bug fix.
+  3. Make your changes and ensure the tests pass.
+  4. Commit your changes and push your branch to your fork.
+  5. Open a pull request from your fork's branch to the main repository's `main` branch.
+
+- **Provide Feedback:** Your feedback is valuable. If you have any suggestions for improving the project or the documentation, please let us know.
+
+<br>
+
+## Api Refrences
+
+* <img id="code-flow-ref"> https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
+* <img id="auth0-quick-start"> https://manage.auth0.com/dashboard/us/dev-i4yy6aosmfbqnxq3/applications/7AtMgepqMwqvlgtKhV2vQy7YmWYCr3oI/quickstart
+* <img id="auth0-native-authorize"> https://auth0.com/docs/api/authentication#social
+
+
 ## License:
 
 This project is licensed under the MIT License: https://opensource.org/licenses/MIT.
 
 
-## Additional Notes:
-
-This is a sample README file, and specific details may need to be adjusted based on your implementation.
-Security is paramount for authentication systems. Ensure proper security practices like secure password hashing and access control are implemented.
-Consider including API documentation tools like Swagger or OpenAPI to generate interactive API documentation.
-Further Development:
-
-Support for additional identity providers beyond Auth0.
-Integration with social login options.
-Implement user roles and permissions.
-Implement token-based authentication and refresh tokens.
-This Centralized Authentication API provides a robust foundation for managing user authentication across your applications, promoting code reusability and streamlining your backend development.
-...
-
-
-## Api Refrences
-https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
